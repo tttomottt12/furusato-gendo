@@ -446,6 +446,28 @@
     font-weight:700;
   }
 
+  .top-notice{
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    font-size:13px;
+    color:var(--ink);
+    margin:0 0 24px;
+    line-height:1.7;
+  }
+  .top-notice strong{color:var(--shu);}
+
+  .field-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:var(--paper-deep);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    margin-top:10px;
+  }
+  .field-note strong{color:var(--navy);}
+
   @media (max-width:480px){
     .card{padding:24px 18px;}
     .hanko{width:58px; height:58px; font-size:11px; top:16px; right:16px;}
@@ -466,25 +488,36 @@
     <div class="brush-rule"></div>
   </header>
 
+  <div class="top-notice">
+    <strong>入力するのは「あなた本人だけ」の年収です。</strong>配偶者や家族の年収と合算しないでください。ふるさと納税の限度額は、寄付をする本人1人分の所得をもとに計算する仕組みです。共働きのご夫婦は、お互いにそれぞれ自分の年収でこのシミュレーターを使い、別々に限度額を確認してください（世帯で1回計算するものではありません）。
+  </div>
+
   <div class="card">
-    <h2><span class="num">1</span>年収を入力</h2>
+    <h2><span class="num">1</span>あなた本人の年収を入力</h2>
     <div class="field">
-      <label for="income">給与収入（額面・年収）<span class="hint">source: 源泉徴収票の「支払金額」</span></label>
+      <label for="income">あなた本人の給与収入（額面・年収）<span class="hint">source: 源泉徴収票の「支払金額」</span></label>
       <div class="income-row">
         <input type="number" id="income" min="0" max="30000000" step="10" value="500">
         <span class="unit">万円</span>
       </div>
       <input type="range" id="incomeRange" min="100" max="2000" step="10" value="500">
+      <div class="field-note">
+        <strong>ここに入れるのはあなた1人の年収です。</strong>配偶者の年収は含めません。共働きの場合、配偶者の分は合算せず、配偶者は配偶者自身でこのツールを使って別に計算してください。
+      </div>
     </div>
   </div>
 
   <div class="card">
     <h2><span class="num">2</span>配偶者について</h2>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin-top:-10px;">ここでは「あなたが配偶者控除・配偶者特別控除を受けているかどうか」を選びます。共働きで配偶者の年収が一定額以上あり、控除を受けていない場合は「配偶者なし／共働き」を選んでください。</p>
     <div class="field">
-      <label>配偶者控除の適用</label>
+      <label>配偶者控除・配偶者特別控除の適用</label>
       <div class="seg" id="spouseSeg">
-        <button data-val="none" class="active">配偶者なし／共働き</button>
-        <button data-val="deduction">配偶者控除あり<span class="hint" style="display:block;margin:0;"></span></button>
+        <button data-val="none" class="active">配偶者なし／共働き<br><span style="font-weight:400;font-size:11px;">（控除を受けていない）</span></button>
+        <button data-val="deduction">配偶者控除あり<br><span style="font-weight:400;font-size:11px;">（配偶者の年収が少ない）</span></button>
+      </div>
+      <div class="field-note">
+        判断に迷う場合は、源泉徴収票の「配偶者（特別）控除の額」欄に金額が入っていれば「配偶者控除あり」、空欄または0円なら「配偶者なし／共働き」を選んでください。
       </div>
     </div>
   </div>
@@ -518,7 +551,7 @@
 
   <div class="result" id="result">
     <div class="hanko">目安<br>確定</div>
-    <div class="label">あなたの控除上限額（目安）</div>
+    <div class="label">あなた本人の控除上限額（目安）</div>
     <div class="amount" id="amountText">0<span>円</span></div>
 
     <div class="breakdown">
@@ -550,7 +583,7 @@
 
   <div class="card">
     <h2>年収・家族構成別 限度額早見表</h2>
-    <p style="font-size:13px;color:var(--ink-soft);margin:-10px 0 18px;">上のシミュレーターと同じ計算式で算出した目安です。ご自身の条件に近い行を確認する際の参考にしてください。</p>
+    <p style="font-size:13px;color:var(--ink-soft);margin:-10px 0 18px;">上のシミュレーターと同じ計算式で算出した目安です。ご自身の条件に近い行を確認する際の参考にしてください。<strong>「年収」は表中のすべての区分で「あなた本人」の年収を指します（配偶者と合算しません）。</strong></p>
     <div class="table-scroll">
       <table class="rate-table">
         <thead>
