@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://furusato-gendo.com/sitemap.xml

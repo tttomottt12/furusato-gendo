@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="google-site-verification" content="X1VqPiPF9wDF2-OF25d5xgsznCV2Pjatirp_NmZRyEw" />
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7729117817210489"
+     crossorigin="anonymous"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-56MQW9DM6S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-56MQW9DM6S');
+</script>
+
+<title>ふるさと納税 限度額シミュレーター｜自己負担2,000円でお得に寄付</title>
+<meta name="description" content="年収と家族構成を入力するだけで、ふるさと納税の控除上限額（限度額）の目安がすぐわかる無料シミュレーターです。">
+<link rel="canonical" href="https://furusato-gendo.com/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ふるさと納税 限度額シミュレーター">
+<meta property="og:title" content="ふるさと納税 限度額シミュレーター｜自己負担2,000円でお得に寄付">
+<meta property="og:description" content="年収と家族構成を入力するだけで、ふるさと納税の控除上限額（限度額）の目安がすぐわかる無料シミュレーターです。">
+<meta property="og:url" content="https://furusato-gendo.com/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ふるさと納税 限度額シミュレーター｜自己負担2,000円でお得に寄付">
+<meta name="twitter:description" content="年収と家族構成を入力するだけで、ふるさと納税の控除上限額（限度額）の目安がすぐわかる無料シミュレーターです。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+
+
+<style>
+  :root{
+    --paper: #F3EEE1;
+    --paper-deep: #EAE2CC;
+    --ink: #1F2A3C;
+    --ink-soft: #4A5568;
+    --navy: #16233F;
+    --navy-deep: #0D1730;
+    --gold: #B8912F;
+    --gold-soft: #DCC98A;
+    --shu: #B7472A;
+    --shu-deep: #8F3620;
+    --line: rgba(31,42,60,0.14);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 8%, rgba(184,145,47,0.08), transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(183,71,42,0.06), transparent 45%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 20px 80px;}
+
+  /* Header */
+  header{
+    padding:48px 20px 36px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.32em;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Shippori Mincho', serif;
+    font-size:clamp(26px,5vw,38px);
+    font-weight:700;
+    color:var(--navy);
+    margin:0 0 12px;
+    letter-spacing:0.04em;
+  }
+  header p.lead{
+    color:var(--ink-soft);
+    font-size:14.5px;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .brush-rule{
+    width:64px;height:3px;
+    background:linear-gradient(90deg, var(--shu), var(--gold));
+    margin:20px auto 0;
+    border-radius:2px;
+  }
+
+  /* Card */
+  .card{
+    background:#FBF8F0;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 18px 40px -24px rgba(13,23,48,0.35);
+    padding:32px;
+    margin-bottom:28px;
+  }
+  .card h2{
+    font-family:'Shippori Mincho', serif;
+    font-size:18px;
+    color:var(--navy);
+    margin:0 0 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .card h2 .num{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:24px;height:24px;
+    background:var(--navy);
+    color:var(--gold-soft);
+    font-size:12px;
+    border-radius:50%;
+    font-family:'Noto Sans JP',sans-serif;
+    font-weight:700;
+  }
+
+  .field{margin-bottom:22px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{
+    display:block;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+  .field .hint{
+    font-size:12px;
+    color:var(--ink-soft);
+    font-weight:400;
+    margin-left:6px;
+  }
+
+  .income-row{display:flex; align-items:center; gap:12px;}
+  input[type=number]{
+    width:100%;
+    padding:12px 14px;
+    font-size:16px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:#fff;
+    color:var(--ink);
+    font-family:'Noto Sans JP',sans-serif;
+  }
+  input[type=number]:focus{
+    outline:2px solid var(--gold);
+    outline-offset:1px;
+    border-color:var(--gold);
+  }
+  .unit{font-size:13px; color:var(--ink-soft); white-space:nowrap;}
+
+  input[type=range]{
+    width:100%;
+    accent-color:var(--shu);
+    margin-top:10px;
+  }
+
+  .seg{
+    display:flex;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .seg button{
+    flex:1;
+    padding:11px 8px;
+    border:none;
+    background:#fff;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-family:'Noto Sans JP',sans-serif;
+    cursor:pointer;
+    border-right:1px solid var(--line);
+    transition:background .15s, color .15s;
+  }
+  .seg button:last-child{border-right:none;}
+  .seg button.active{
+    background:var(--navy);
+    color:#fff;
+    font-weight:700;
+  }
+  .seg button:hover:not(.active){background:var(--paper-deep);}
+
+  .stepper-row{display:flex; align-items:center; justify-content:space-between; gap:14px;}
+  .stepper{
+    display:flex; align-items:center; gap:14px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:6px 10px;
+    background:#fff;
+  }
+  .stepper button{
+    width:28px;height:28px;
+    border:none;
+    background:var(--paper-deep);
+    color:var(--navy);
+    font-size:16px;
+    font-weight:700;
+    border-radius:50%;
+    cursor:pointer;
+    line-height:1;
+  }
+  .stepper button:hover{background:var(--gold-soft);}
+  .stepper .count{min-width:20px; text-align:center; font-weight:700;}
+
+  .calc-btn{
+    width:100%;
+    padding:16px;
+    font-size:16px;
+    font-weight:700;
+    font-family:'Noto Sans JP',sans-serif;
+    letter-spacing:0.05em;
+    color:#fff;
+    background:linear-gradient(135deg, var(--navy), var(--navy-deep));
+    border:none;
+    border-radius:var(--radius);
+    cursor:pointer;
+    box-shadow:0 10px 24px -10px rgba(13,23,48,0.55);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .calc-btn:hover{transform:translateY(-1px); box-shadow:0 14px 28px -10px rgba(13,23,48,0.6);}
+  .calc-btn:active{transform:translateY(0);}
+
+  /* Result */
+  .result{
+    display:none;
+    position:relative;
+    background:#FBF8F0;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:40px 32px 32px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .result.show{display:block; animation:fadeUp .5s ease both;}
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .result .label{
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.1em;
+    margin-bottom:6px;
+  }
+  .result .amount{
+    font-family:'Shippori Mincho', serif;
+    font-size:clamp(38px,9vw,58px);
+    color:var(--navy);
+    font-weight:700;
+    line-height:1.1;
+  }
+  .result .amount span{font-size:0.4em; margin-left:6px; color:var(--ink-soft); font-family:'Noto Sans JP',sans-serif; font-weight:500;}
+
+  .hanko{
+    position:absolute;
+    top:22px; right:28px;
+    width:74px; height:74px;
+    border:3px solid var(--shu);
+    border-radius:8px;
+    color:var(--shu);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:13px;
+    line-height:1.3;
+    text-align:center;
+    transform:rotate(8deg) scale(0);
+    opacity:0;
+    writing-mode:vertical-rl;
+    letter-spacing:0.15em;
+  }
+  .result.show .hanko{
+    animation:stamp .45s cubic-bezier(.34,1.56,.64,1) .35s forwards;
+  }
+  @keyframes stamp{
+    0%{transform:rotate(8deg) scale(2.4); opacity:0;}
+    60%{opacity:0.9;}
+    100%{transform:rotate(8deg) scale(1); opacity:0.9;}
+  }
+
+  .breakdown{
+    margin-top:28px;
+    text-align:left;
+    border-top:1px dashed var(--line);
+    padding-top:20px;
+  }
+  .breakdown .row{
+    display:flex; justify-content:space-between;
+    font-size:13.5px;
+    padding:7px 0;
+    color:var(--ink-soft);
+  }
+  .breakdown .row strong{color:var(--ink); font-weight:700;}
+
+  .note{
+    margin-top:22px;
+    font-size:12px;
+    color:var(--ink-soft);
+    background:var(--paper-deep);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    text-align:left;
+  }
+
+
+  /* Affiliate */
+  .affiliate-box{
+    margin-top:22px;
+    padding:18px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    text-align:center;
+  }
+  .affiliate-label{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    color:var(--shu);
+    border:1px solid rgba(183,71,42,0.35);
+    padding:3px 8px;
+    border-radius:999px;
+    margin-bottom:12px;
+  }
+  .affiliate-btn{
+    display:inline-block;
+    width:100%;
+    max-width:420px;
+    padding:15px 18px;
+    background:linear-gradient(135deg, var(--shu), var(--shu-deep));
+    color:#fff;
+    font-weight:700;
+    text-decoration:none;
+    border-radius:var(--radius);
+    box-shadow:0 10px 24px -10px rgba(143,54,32,0.55);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .affiliate-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 14px 28px -10px rgba(143,54,32,0.65);
+  }
+  .affiliate-note{
+    margin-top:10px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    text-align:left;
+  }
+
+  /* Explainer */
+  .explainer{
+    margin-top:44px;
+  }
+  .explainer h3{
+    font-family:'Shippori Mincho', serif;
+    font-size:19px;
+    color:var(--navy);
+    border-left:4px solid var(--shu);
+    padding-left:12px;
+    margin:32px 0 14px;
+  }
+  .explainer p{font-size:14px; color:var(--ink-soft); margin:0 0 14px;}
+  .explainer ul{font-size:14px; color:var(--ink-soft); padding-left:20px; margin:0 0 14px;}
+  .explainer li{margin-bottom:6px;}
+
+  /* Lookup table */
+  .table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -4px;}
+  table.rate-table{
+    width:100%;
+    min-width:560px;
+    border-collapse:collapse;
+    font-size:13px;
+  }
+  table.rate-table th, table.rate-table td{
+    padding:10px 12px;
+    text-align:right;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  table.rate-table th:first-child, table.rate-table td:first-child{text-align:left;}
+  table.rate-table thead th{
+    background:var(--navy);
+    color:var(--gold-soft);
+    font-weight:700;
+    font-size:12px;
+  }
+  table.rate-table tbody tr:nth-child(even){background:var(--paper-deep);}
+  .table-note{font-size:12px; color:var(--ink-soft); margin-top:12px;}
+
+  /* FAQ */
+  .faq details{
+    border-bottom:1px solid var(--line);
+    padding:14px 2px;
+  }
+  .faq details:last-child{border-bottom:none;}
+  .faq summary{
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--navy);
+    cursor:pointer;
+    list-style:none;
+    position:relative;
+    padding-right:24px;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{
+    content:"+";
+    position:absolute;
+    right:0; top:0;
+    color:var(--shu);
+    font-weight:700;
+    font-size:16px;
+  }
+  .faq details[open] summary::after{content:"−";}
+  .faq details p{font-size:13.5px; color:var(--ink-soft); margin:10px 0 0;}
+
+  footer{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    padding:30px 20px 10px;
+  }
+  footer a{color:var(--ink-soft);}
+  footer a:hover{color:var(--shu);}
+
+  .footer-ad-note{
+    margin-bottom:8px;
+    color:var(--shu);
+    font-weight:700;
+  }
+
+  .top-notice{
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    font-size:13px;
+    color:var(--ink);
+    margin:0 0 24px;
+    line-height:1.7;
+  }
+  .top-notice strong{color:var(--shu);}
+
+  .field-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:var(--paper-deep);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    margin-top:10px;
+  }
+  .field-note strong{color:var(--navy);}
+
+  @media (max-width:480px){
+    .card{padding:24px 18px;}
+    .hanko{width:58px; height:58px; font-size:11px; top:16px; right:16px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .result.show, .result.show .hanko{animation:none; opacity:1; transform:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">HOMETOWN TAX DONATION</div>
+    <h1>ふるさと納税<br>限度額シミュレーター</h1>
+    <p class="lead">年収と家族構成を入れるだけ。自己負担2,000円で寄付できる上限額の目安が、その場でわかります。</p>
+    <div class="brush-rule"></div>
+  </header>
+
+  <div class="top-notice">
+    <strong>入力するのは「あなた本人だけ」の年収です。</strong>配偶者や家族の年収と合算しないでください。ふるさと納税の限度額は、寄付をする本人1人分の所得をもとに計算する仕組みです。共働きのご夫婦は、お互いにそれぞれ自分の年収でこのシミュレーターを使い、別々に限度額を確認してください（世帯で1回計算するものではありません）。
+  </div>
+
+  <div class="card">
+    <h2><span class="num">1</span>あなた本人の年収を入力</h2>
+    <div class="field">
+      <label for="income">あなた本人の給与収入（額面・年収）<span class="hint">source: 源泉徴収票の「支払金額」</span></label>
+      <div class="income-row">
+        <input type="number" id="income" min="0" max="30000000" step="10" value="500">
+        <span class="unit">万円</span>
+      </div>
+      <input type="range" id="incomeRange" min="100" max="2000" step="10" value="500">
+      <div class="field-note">
+        <strong>ここに入れるのはあなた1人の年収です。</strong>配偶者の年収は含めません。共働きの場合、配偶者の分は合算せず、配偶者は配偶者自身でこのツールを使って別に計算してください。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">2</span>配偶者について</h2>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin-top:-10px;">ここでは「あなたが配偶者控除・配偶者特別控除を受けているかどうか」を選びます。共働きで配偶者の年収が一定額以上あり、控除を受けていない場合は「配偶者なし／共働き」を選んでください。</p>
+    <div class="field">
+      <label>配偶者控除・配偶者特別控除の適用</label>
+      <div class="seg" id="spouseSeg">
+        <button data-val="none" class="active">配偶者なし／共働き<br><span style="font-weight:400;font-size:11px;">（控除を受けていない）</span></button>
+        <button data-val="deduction">配偶者控除あり<br><span style="font-weight:400;font-size:11px;">（配偶者の年収が少ない）</span></button>
+      </div>
+      <div class="field-note">
+        判断に迷う場合は、源泉徴収票の「配偶者（特別）控除の額」欄に金額が入っていれば「配偶者控除あり」、空欄または0円なら「配偶者なし／共働き」を選んでください。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">3</span>扶養しているお子さま</h2>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin-top:-10px;">中学生以下のお子さまは控除額に影響しないため、カウント不要です。</p>
+    <div class="field">
+      <label>高校生（16〜18歳）の人数</label>
+      <div class="stepper-row">
+        <div class="stepper">
+          <button class="dec" data-target="hs">−</button>
+          <span class="count" id="hsCount">0</span>
+          <button class="inc" data-target="hs">＋</button>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>大学生（19〜22歳・特定扶養親族）の人数</label>
+      <div class="stepper-row">
+        <div class="stepper">
+          <button class="dec" data-target="col">−</button>
+          <span class="count" id="colCount">0</span>
+          <button class="inc" data-target="col">＋</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" id="calcBtn">限度額を計算する</button>
+
+  <div class="result" id="result">
+    <div class="hanko">目安<br>確定</div>
+    <div class="label">あなた本人の控除上限額（目安）</div>
+    <div class="amount" id="amountText">0<span>円</span></div>
+
+    <div class="breakdown">
+      <div class="row"><span>実質負担額</span><strong>2,000円</strong></div>
+      <div class="row"><span>所得税からの還付（目安）</span><strong id="incomeTaxRefund">0円</strong></div>
+      <div class="row"><span>住民税からの控除・基本分</span><strong id="residentBase">0円</strong></div>
+      <div class="row"><span>住民税からの控除・特例分</span><strong id="residentSpecial">0円</strong></div>
+    </div>
+
+    <div class="note">
+      ※本ツールは給与所得者向けの簡易試算です。社会保険料控除は年収の15%と仮定し、住宅ローン控除・医療費控除・生命保険料控除などその他の控除は考慮していません。正確な金額は寄付翌年に市区町村へご確認いただくか、税理士にご相談ください。
+    </div>
+
+    <div class="affiliate-box">
+      <div class="affiliate-label">広告・PR</div>
+      <a
+        class="affiliate-btn"
+        href="https://hb.afl.rakuten.co.jp/hgc/557d95de.4241bb64.557d95df.546fe0d6/?pc=https%3A%2F%2Fevent.rakuten.co.jp%2Ffurusato%2F&amp;link_type=hybrid_url&amp;ut=eyJwYWdlIjoidXJsIiwidHlwZSI6Imh5YnJpZF91cmwiLCJjb2wiOjF9"
+        target="_blank"
+        rel="nofollow sponsored noopener"
+      >
+        楽天ふるさと納税で返礼品を探す
+      </a>
+      <div class="affiliate-note">
+        ※当サイトはアフィリエイト広告を利用しています。リンク先で寄付や申込みが行われた場合、当サイトに報酬が発生することがあります。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>年収・家族構成別 限度額早見表</h2>
+    <p style="font-size:13px;color:var(--ink-soft);margin:-10px 0 18px;">上のシミュレーターと同じ計算式で算出した目安です。ご自身の条件に近い行を確認する際の参考にしてください。<strong>「年収」は表中のすべての区分で「あなた本人」の年収を指します（配偶者と合算しません）。</strong></p>
+    <div class="table-scroll">
+      <table class="rate-table">
+        <thead>
+          <tr>
+            <th>年収（額面）</th>
+            <th>独身・共働き</th>
+            <th>夫婦<br>（配偶者控除あり）</th>
+            <th>夫婦+子1人<br>（高校生）</th>
+            <th>夫婦+子2人<br>（高校生+大学生）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>300万円</td><td>29,000円</td><td>21,000円</td><td>13,000円</td><td>3,000円</td></tr>
+          <tr><td>400万円</td><td>43,000円</td><td>35,000円</td><td>27,000円</td><td>17,000円</td></tr>
+          <tr><td>500万円</td><td>62,000円</td><td>50,000円</td><td>43,000円</td><td>32,000円</td></tr>
+          <tr><td>600万円</td><td>78,000円</td><td>70,000円</td><td>61,000円</td><td>47,000円</td></tr>
+          <tr><td>700万円</td><td>109,000円</td><td>87,000円</td><td>79,000円</td><td>67,000円</td></tr>
+          <tr><td>800万円</td><td>130,000円</td><td>121,000円</td><td>112,000円</td><td>86,000円</td></tr>
+          <tr><td>900万円</td><td>153,000円</td><td>144,000円</td><td>135,000円</td><td>122,000円</td></tr>
+          <tr><td>1,000万円</td><td>178,000円</td><td>168,000円</td><td>159,000円</td><td>146,000円</td></tr>
+          <tr><td>1,200万円</td><td>237,000円</td><td>227,000円</td><td>217,000円</td><td>195,000円</td></tr>
+          <tr><td>1,500万円</td><td>370,000円</td><td>359,000円</td><td>347,000円</td><td>280,000円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">※社会保険料控除は年収の15%と仮定した概算です。住宅ローン控除・医療費控除・iDeCoの掛金控除などがある場合、実際の限度額はこれより低くなります。正確な金額は上のシミュレーターに詳細な条件を入力してご確認ください。</p>
+  </div>
+
+  <div class="explainer">
+    <h3>限度額はどうやって決まるの？</h3>
+    <p>ふるさと納税で「実質自己負担2,000円」に収まるのは、寄付額のうち2,000円を超える部分が所得税の還付と翌年の住民税の控除でまかなわれるからです。控除には上限があり、それを超えて寄付すると超過分がそのまま自己負担になります。上限額は、年収から計算した住民税所得割額と、あなたの所得税率によって決まります。</p>
+
+    <h3>家族構成で上限額が変わる理由</h3>
+    <p>配偶者控除や扶養控除が増えるほど課税所得が下がり、納める税金も少なくなります。納税額が少なくなれば、その分ふるさと納税で控除できる枠（上限額）も小さくなります。同じ年収でも独身の方より、配偶者や扶養家族がいる方の方が上限額は低くなる傾向があります。</p>
+
+    <h3>寄付するときの注意点</h3>
+    <ul>
+      <li>限度額ぎりぎりまで寄付すると、ボーナス減額や急な医療費控除の発生などで上限が下振れした場合、超過分が自己負担になるリスクがあります。目安としては上限の90〜95%程度に抑えるのが安全です。</li>
+      <li>控除を受けるには「<a href="guide-onestop.html">ワンストップ特例制度</a>」（寄付先が年間5自治体以内）か「<a href="guide-kakuteishinkoku.html">確定申告</a>」のいずれかの手続きが必要です。</li>
+      <li>限度額はその年（1月〜12月）の所得で決まるため、年収が確定していない年の途中では、あくまで見込みでの試算になります。詳しくは<a href="guide-schedule.html">寄付のスケジュールガイド</a>をご覧ください。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>もっと詳しく知りたい方へ</h2>
+    <p style="font-size:13px;color:var(--ink-soft);margin:-10px 0 14px;">手続きやスケジュール、注意点を詳しく解説したガイド記事はこちらです。</p>
+    <ul style="font-size:14px;color:var(--ink-soft);padding-left:20px;margin:0;">
+      <li style="margin-bottom:8px;"><a href="guide-onestop.html">ワンストップ特例制度の申請方法・期限・書き方ガイド</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-kakuteishinkoku.html">ふるさと納税の確定申告のやり方・必要書類ガイド</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-schedule.html">ふるさと納税はいつまで？年内に済ませるべきこと</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-shokugyo.html">会社員・公務員・自営業者別 限度額の考え方の違い</a></li>
+      <li><a href="guide-chuui.html">ふるさと納税のデメリット・よくある失敗まとめ</a></li>
+    </ul>
+  </div>
+
+  <div class="card faq">
+    <h2>よくある質問</h2>
+
+    <details>
+      <summary>限度額を超えて寄付するとどうなりますか？</summary>
+      <p>限度額（上限額）を超えた部分は控除の対象にならず、寄付した自治体への純粋な寄付（自己負担）扱いになります。たとえば限度額が5万円の方が10万円寄付した場合、超過した5万円分は控除されず自己負担が増えます。返礼品はもらえますが、税金がお得になる範囲を超えている点に注意してください。</p>
+    </details>
+
+    <details>
+      <summary>ワンストップ特例制度と確定申告、どちらを選べばいいですか？</summary>
+      <p>会社員などもともと確定申告が不要な方で、1年間の寄付先が5自治体以内であれば「ワンストップ特例制度」が手続き不要で簡単です。一方、6自治体以上に寄付する場合、医療費控除など他の申告もあわせて行う場合、個人事業主の方などは「確定申告」で寄付金控除を申請します。ワンストップ特例は住民税からまとめて控除される点、確定申告は所得税の還付と住民税の控除に分かれる点が異なります。詳しい手順は<a href="guide-onestop.html">ワンストップ特例ガイド</a>・<a href="guide-kakuteishinkoku.html">確定申告ガイド</a>をご覧ください。</p>
+    </details>
+
+    <details>
+      <summary>年の途中で転職・退職した場合、限度額はどう考えればいいですか？</summary>
+      <p>限度額はその年1月〜12月の所得が確定して初めて正確に分かります。年の途中で転職・退職・ボーナス減額などがあると年収の見込みが変わるため、限度額も変動します。年の前半に見込みで寄付する場合は、限度額の90%程度に抑えるなど余裕を持たせるのが安全です。年収が概ね確定する年末に近づいてから、残りの枠を寄付するという進め方もあります。詳しくは<a href="guide-schedule.html">寄付のスケジュールガイド</a>をご覧ください。</p>
+    </details>
+
+    <details>
+      <summary>共働き夫婦の場合、限度額はどのように計算しますか？</summary>
+      <p>ふるさと納税の限度額は世帯ではなく個人単位で計算します。共働きで配偶者控除の対象になっていない場合は、それぞれが自分の年収・扶養状況をもとに個別にシミュレーションを行ってください。本ツールでも「配偶者なし／共働き」を選択することで、控除を受けていない前提の試算になります。職業別の考え方は<a href="guide-shokugyo.html">こちらの記事</a>もご参考ください。</p>
+    </details>
+
+    <details>
+      <summary>住宅ローン控除やiDeCoを利用している場合、限度額は変わりますか？</summary>
+      <p>変わります。住宅ローン控除（住宅借入金等特別控除）やiDeCoの掛金控除、医療費控除、生命保険料控除などがあると課税所得や納税額が下がるため、ふるさと納税の限度額も本ツールの試算より少なくなる傾向があります。これらの控除を多く受けている方は、算出された金額より1〜2割程度低めに見積もっておくと安全です。</p>
+    </details>
+
+    <details>
+      <summary>限度額ギリギリまで寄付しても大丈夫ですか？</summary>
+      <p>可能ですが、リスクもあります。想定より賞与が減った、医療費控除を追加で申告した、扶養状況が変わったなどの理由で実際の限度額が下振れすると、超過分が自己負担になります。特に年の前半〜中盤に寄付する場合は、算出額の90〜95%程度を目安にすると安心です。</p>
+    </details>
+
+    <details>
+      <summary>このシミュレーターの計算はいつの税制に基づいていますか？</summary>
+      <p>2026年（令和8年）分の給与所得控除・所得税率区分・住民税の計算方法に基づいて試算しています。税制は改正されることがあるため、実際に寄付する年の制度をあわせてご確認ください。</p>
+    </details>
+
+    <details>
+      <summary>本サイトの試算結果は確実な金額ですか？</summary>
+      <p>いいえ、あくまで簡易的な目安です。社会保険料控除は年収の15%と仮定するなど一定の前提を置いており、住宅ローン控除・医療費控除・生命保険料控除などその他の控除は反映していません。正確な限度額は、寄付翌年にお住まいの市区町村へ確認するか、税理士にご相談ください。詳しくは<a href="disclaimer.html">免責事項</a>をご覧ください。</p>
+    </details>
+  </div>
+
+  <footer>
+    <div class="footer-ad-note">※当サイトはアフィリエイト広告を利用しています。</div>
+    本シミュレーターの試算結果は目安であり、金額を保証するものではありません。2026年（令和8年）の税制に基づき試算しています。<br>
+    <a href="guide.html">関連記事</a> ・ <a href="about.html">このサイトについて</a> ・ <a href="privacy.html">プライバシーポリシー</a> ・ <a href="disclaimer.html">免責事項</a> ・ <a href="contact.html">お問い合わせ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const incomeInput = document.getElementById('income');
+  const incomeRange = document.getElementById('incomeRange');
+  const spouseSeg = document.getElementById('spouseSeg');
+  const calcBtn = document.getElementById('calcBtn');
+  const result = document.getElementById('result');
+
+  let spouseVal = 'none';
+  let hsCount = 0;
+  let colCount = 0;
+
+  // sync income input <-> range
+  incomeInput.addEventListener('input', () => {
+    incomeRange.value = Math.min(Math.max(incomeInput.value, 100), 2000);
+  });
+  incomeRange.addEventListener('input', () => {
+    incomeInput.value = incomeRange.value;
+  });
+
+  // spouse segmented control
+  spouseSeg.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      spouseSeg.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      spouseVal = btn.dataset.val;
+    });
+  });
+
+  // steppers
+  document.querySelectorAll('.stepper button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      const isInc = btn.classList.contains('inc');
+      if(target === 'hs'){
+        hsCount = Math.max(0, Math.min(6, hsCount + (isInc ? 1 : -1)));
+        document.getElementById('hsCount').textContent = hsCount;
+      } else {
+        colCount = Math.max(0, Math.min(6, colCount + (isInc ? 1 : -1)));
+        document.getElementById('colCount').textContent = colCount;
+      }
+    });
+  });
+
+  function givyoShotokuKoujo(income){
+    // income: yen
+    if(income <= 1625000) return Math.min(income, 550000);
+    if(income <= 1800000) return income*0.4 - 100000;
+    if(income <= 3600000) return income*0.3 + 80000;
+    if(income <= 6600000) return income*0.2 + 440000;
+    if(income <= 8500000) return income*0.1 + 1100000;
+    return 1950000;
+  }
+
+  function shotokuZeiRitsu(kazeiShotoku){
+    if(kazeiShotoku <= 1950000) return 0.05;
+    if(kazeiShotoku <= 3300000) return 0.10;
+    if(kazeiShotoku <= 6950000) return 0.20;
+    if(kazeiShotoku <= 9000000) return 0.23;
+    if(kazeiShotoku <= 18000000) return 0.33;
+    if(kazeiShotoku <= 40000000) return 0.40;
+    return 0.45;
+  }
+
+  function calculate(){
+    const incomeMan = parseFloat(incomeInput.value) || 0;
+    const income = incomeMan * 10000; // yen
+
+    if(income <= 0){
+      alert('年収を入力してください');
+      return;
+    }
+
+    const shakaihoken = income * 0.15; // 社会保険料控除の仮定(年収の15%)
+    const givyoShotoku = income - givyoShotokuKoujo(income);
+
+    // 住民税ベースの所得控除
+    const kisoJumin = 430000;
+    const haigushaJumin = spouseVal === 'deduction' ? 330000 : 0;
+    const fuyoJumin = hsCount*330000 + colCount*450000;
+    const koujoGoukeiJumin = kisoJumin + shakaihoken + haigushaJumin + fuyoJumin;
+    const kazeiShotokuJumin = Math.max(0, givyoShotoku - koujoGoukeiJumin);
+    const juminzeiShotokuwari = kazeiShotokuJumin * 0.10;
+
+    // 所得税ベースの所得控除
+    const kisoShotoku = 480000;
+    const haigushaShotoku = spouseVal === 'deduction' ? 380000 : 0;
+    const fuyoShotoku = hsCount*380000 + colCount*630000;
+    const koujoGoukeiShotoku = kisoShotoku + shakaihoken + haigushaShotoku + fuyoShotoku;
+    const kazeiShotokuShotoku = Math.max(0, givyoShotoku - koujoGoukeiShotoku);
+    const zeiritsu = shotokuZeiRitsu(kazeiShotokuShotoku);
+
+    // 限度額計算: 住民税所得割×20% = (限度額-2000)×(90%-所得税率×1.021)
+    const denom = 0.9 - zeiritsu*1.021;
+    let genndogaku = 2000;
+    if(denom > 0){
+      genndogaku = (juminzeiShotokuwari * 0.2) / denom + 2000;
+    }
+    genndogaku = Math.max(2000, Math.round(genndogaku / 1000) * 1000);
+
+    const jichitaiKifu = genndogaku - 2000;
+    const juminBase = Math.round(jichitaiKifu * 0.10 / 1000) * 1000;
+    const juminSpecial = Math.max(0, genndogaku - 2000 - juminBase - Math.round(jichitaiKifu*zeiritsu*1.021));
+    const shotokuKanpu = genndogaku - 2000 - juminBase - juminSpecial;
+
+    document.getElementById('amountText').innerHTML = genndogaku.toLocaleString() + '<span>円</span>';
+    document.getElementById('incomeTaxRefund').textContent = Math.max(0,shotokuKanpu).toLocaleString() + '円';
+    document.getElementById('residentBase').textContent = juminBase.toLocaleString() + '円';
+    document.getElementById('residentSpecial').textContent = Math.max(0,juminSpecial).toLocaleString() + '円';
+
+    result.classList.remove('show');
+    void result.offsetWidth; // reflow to restart animation
+    result.classList.add('show');
+    result.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  calcBtn.addEventListener('click', calculate);
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "限度額を超えて寄付するとどうなりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "限度額（上限額）を超えた部分は控除の対象にならず、寄付した自治体への純粋な寄付（自己負担）扱いになります。返礼品はもらえますが、税金がお得になる範囲を超えている点に注意してください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ワンストップ特例制度と確定申告、どちらを選べばいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "会社員などもともと確定申告が不要な方で、1年間の寄付先が5自治体以内であればワンストップ特例制度が手続き不要で簡単です。6自治体以上に寄付する場合や他の申告もあわせて行う場合は確定申告で寄付金控除を申請します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "年の途中で転職・退職した場合、限度額はどう考えればいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "限度額はその年1月〜12月の所得が確定して初めて正確に分かります。年の前半に見込みで寄付する場合は限度額の90%程度に抑えるなど余裕を持たせるのが安全です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "共働き夫婦の場合、限度額はどのように計算しますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ふるさと納税の限度額は世帯ではなく個人単位で計算します。配偶者控除の対象になっていない場合は、それぞれが自分の年収・扶養状況をもとに個別にシミュレーションを行ってください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "住宅ローン控除やiDeCoを利用している場合、限度額は変わりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "変わります。住宅ローン控除やiDeCoの掛金控除、医療費控除、生命保険料控除などがあると課税所得が下がるため、限度額は本ツールの試算より少なくなる傾向があります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "限度額ギリギリまで寄付しても大丈夫ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可能ですがリスクもあります。賞与の減少や控除内容の変化で実際の限度額が下振れすると超過分が自己負担になるため、算出額の90〜95%程度を目安にすると安心です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "このシミュレーターの計算はいつの税制に基づいていますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "2026年（令和8年）分の給与所得控除・所得税率区分・住民税の計算方法に基づいて試算しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "本サイトの試算結果は確実な金額ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "いいえ、あくまで簡易的な目安です。社会保険料控除は年収の15%と仮定するなど一定の前提を置いており、正確な金額は市区町村への確認や税理士への相談をおすすめします。"
+      }
+    }
+  ]
+}
+</script>
+</body>
+</html>
