@@ -468,6 +468,53 @@
   }
   .field-note strong{color:var(--navy);}
 
+  /* 詳細設定 */
+  details.adv summary{
+    cursor:pointer; font-size:13.5px; font-weight:700; color:var(--navy);
+    list-style:none; position:relative; padding:4px 0 4px 20px;
+  }
+  details.adv summary::-webkit-details-marker{display:none;}
+  details.adv summary::before{
+    content:"▸"; position:absolute; left:0; color:var(--shu); transition:transform .15s;
+  }
+  details.adv[open] summary::before{transform:rotate(90deg);}
+  details.adv .adv-body{padding-top:14px;}
+  .adv-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 18px;}
+  @media(max-width:520px){.adv-grid{grid-template-columns:1fr;}}
+  .adv-grid label{font-size:12.5px; font-weight:700; display:block; margin-bottom:6px;}
+  .adv-grid .u-row{display:flex; align-items:center; gap:8px;}
+  .adv-note{font-size:12px; color:var(--ink-soft); margin-top:12px;}
+
+  /* 残り枠 */
+  .remain-box{
+    margin-top:22px; padding:16px 18px;
+    border:1px dashed var(--line); border-radius:var(--radius);
+    text-align:left; background:#fff;
+  }
+  .remain-box label{font-size:13px; font-weight:700; display:block; margin-bottom:8px;}
+  .remain-box .r-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .remain-box input{max-width:180px;}
+  .remain-box .r-amount{font-family:'Shippori Mincho',serif; font-size:24px; color:var(--shu); font-weight:700; white-space:nowrap;}
+
+  /* 警告ノート */
+  .warn-note{
+    margin-top:14px; font-size:12.5px;
+    background:rgba(183,71,42,0.08); border:1px solid rgba(183,71,42,0.3);
+    border-radius:var(--radius); padding:12px 14px; text-align:left; color:var(--ink);
+    display:none;
+  }
+  .warn-note.show{display:block;}
+
+  /* 比較テーブル・サブボタン */
+  .affiliate-btn.sub{
+    background:#fff; color:var(--navy);
+    border:1.5px solid var(--line); box-shadow:none;
+    padding:12px 16px; max-width:200px; margin:8px 4px 0;
+    display:inline-block;
+  }
+  .affiliate-btn.sub:hover{border-color:var(--gold); transform:none; box-shadow:none;}
+  .updated-date{font-size:11.5px; color:var(--ink-soft); margin-top:6px;}
+
   @media (max-width:480px){
     .card{padding:24px 18px;}
     .hanko{width:58px; height:58px; font-size:11px; top:16px; right:16px;}
@@ -547,6 +594,46 @@
     </div>
   </div>
 
+  <div class="card">
+    <h2><span class="num">4</span>詳細設定（任意）</h2>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin-top:-10px;">入力しなくても計算できます。iDeCoや医療費控除、住宅ローン控除がある方は、入力するとより実態に近い試算になります。</p>
+    <details class="adv">
+      <summary>詳細な控除を入力する（iDeCo・医療費控除・住宅ローン控除など）</summary>
+      <div class="adv-body">
+        <div class="adv-grid">
+          <div>
+            <label for="advShakai">社会保険料の実額（年間）</label>
+            <div class="u-row"><input type="number" id="advShakai" min="0" step="1" placeholder="未入力なら年収の15%で概算"><span class="unit">万円</span></div>
+          </div>
+          <div>
+            <label for="advIdeco">iDeCo・企業型DCの掛金（年間）</label>
+            <div class="u-row"><input type="number" id="advIdeco" min="0" step="1" placeholder="例: 27.6"><span class="unit">万円</span></div>
+          </div>
+          <div>
+            <label for="advIryohi">医療費控除の額</label>
+            <div class="u-row"><input type="number" id="advIryohi" min="0" step="1" placeholder="支払医療費−10万円が目安"><span class="unit">万円</span></div>
+          </div>
+          <div>
+            <label for="advHoken">生命保険料・地震保険料控除の合計</label>
+            <div class="u-row"><input type="number" id="advHoken" min="0" step="1" placeholder="例: 12"><span class="unit">万円</span></div>
+          </div>
+          <div>
+            <label for="advLoan">住宅ローン控除の年間控除額</label>
+            <div class="u-row"><input type="number" id="advLoan" min="0" step="1" placeholder="例: 21"><span class="unit">万円</span></div>
+          </div>
+          <div>
+            <label>控除の手続き方法（予定）</label>
+            <div class="seg" id="houhouSeg">
+              <button data-val="onestop" class="active">ワンストップ特例</button>
+              <button data-val="kakutei">確定申告</button>
+            </div>
+          </div>
+        </div>
+        <p class="adv-note">※生命保険料控除等は所得税と住民税で上限が異なりますが、本ツールでは同額として簡易計算しています。住宅ローン控除は「ワンストップ特例」を利用する場合、ふるさと納税の限度額に影響しません（<a href="guide-loan.html" style="color:var(--shu);">詳しい解説</a>）。</p>
+      </div>
+    </details>
+  </div>
+
   <button class="calc-btn" id="calcBtn">限度額を計算する</button>
 
   <div class="result" id="result">
@@ -561,20 +648,48 @@
       <div class="row"><span>住民税からの控除・特例分</span><strong id="residentSpecial">0円</strong></div>
     </div>
 
+    <div class="warn-note" id="warnNote"></div>
+
     <div class="note">
-      ※本ツールは給与所得者向けの簡易試算です。社会保険料控除は年収の15%と仮定し、住宅ローン控除・医療費控除・生命保険料控除などその他の控除は考慮していません。正確な金額は寄付翌年に市区町村へご確認いただくか、税理士にご相談ください。
+      ※本ツールは給与所得者向けの簡易試算です。社会保険料は未入力の場合、年収の15%と仮定して概算します。iDeCo・医療費控除・住宅ローン控除などがある方は「詳細設定」で反映できます。正確な金額は寄付翌年に市区町村へご確認いただくか、税理士にご相談ください。計算式と前提は<a href="method.html" style="color:var(--shu);">計算方法の解説ページ</a>で公開しています。
+    </div>
+
+    <div class="remain-box">
+      <label for="donated">今年すでに寄付した金額を入れると「残り枠」がわかります</label>
+      <div class="r-row">
+        <input type="number" id="donated" min="0" step="1000" placeholder="例: 30000">
+        <span class="unit">円</span>
+        <span style="font-size:13px;color:var(--ink-soft);">→ 残り枠</span>
+        <span class="r-amount" id="remainText">−</span>
+      </div>
     </div>
 
     <div class="affiliate-box">
       <div class="affiliate-label">広告・PR</div>
+      <p style="font-size:12.5px;color:var(--ink-soft);text-align:left;margin:0 0 12px;">2025年10月から、ポータルサイト独自のポイント付与は制度改正により全サイトで禁止されました。現在は「ポイントのお得さ」に差はないため、使いやすさや返礼品の品ぞろえで選ぶのがおすすめです。</p>
+      <div class="table-scroll">
+        <table class="rate-table" style="min-width:480px;">
+          <thead><tr><th>サイト</th><th style="text-align:left;">特徴</th></tr></thead>
+          <tbody>
+            <tr><td>楽天ふるさと納税</td><td style="text-align:left;white-space:normal;">楽天市場と同じ操作感で寄付できる。楽天IDがあれば住所入力等が不要で手軽</td></tr>
+            <tr><td>さとふる</td><td style="text-align:left;white-space:normal;">配送時期の目安表示など管理機能が充実。アプリで寄付履歴を一元管理しやすい</td></tr>
+            <tr><td>ふるなび</td><td style="text-align:left;white-space:normal;">家電・日用品系の返礼品の掲載に強みがあるとされる</td></tr>
+          </tbody>
+        </table>
+      </div>
       <a
         class="affiliate-btn"
         href="https://hb.afl.rakuten.co.jp/hgc/557d95de.4241bb64.557d95df.546fe0d6/?pc=https%3A%2F%2Fevent.rakuten.co.jp%2Ffurusato%2F&amp;link_type=hybrid_url&amp;ut=eyJwYWdlIjoidXJsIiwidHlwZSI6Imh5YnJpZF91cmwiLCJjb2wiOjF9"
         target="_blank"
         rel="nofollow sponsored noopener"
+        style="margin-top:14px;"
       >
         楽天ふるさと納税で返礼品を探す
       </a>
+      <div>
+        <a class="affiliate-btn sub" href="https://www.satofull.jp/" target="_blank" rel="nofollow noopener">さとふるを見る</a>
+        <a class="affiliate-btn sub" href="https://furunavi.jp/" target="_blank" rel="nofollow noopener">ふるなびを見る</a>
+      </div>
       <div class="affiliate-note">
         ※当サイトはアフィリエイト広告を利用しています。リンク先で寄付や申込みが行われた場合、当サイトに報酬が発生することがあります。
       </div>
@@ -596,20 +711,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>300万円</td><td>29,000円</td><td>21,000円</td><td>13,000円</td><td>3,000円</td></tr>
-          <tr><td>400万円</td><td>43,000円</td><td>35,000円</td><td>27,000円</td><td>17,000円</td></tr>
-          <tr><td>500万円</td><td>62,000円</td><td>50,000円</td><td>43,000円</td><td>32,000円</td></tr>
-          <tr><td>600万円</td><td>78,000円</td><td>70,000円</td><td>61,000円</td><td>47,000円</td></tr>
-          <tr><td>700万円</td><td>109,000円</td><td>87,000円</td><td>79,000円</td><td>67,000円</td></tr>
-          <tr><td>800万円</td><td>130,000円</td><td>121,000円</td><td>112,000円</td><td>86,000円</td></tr>
-          <tr><td>900万円</td><td>153,000円</td><td>144,000円</td><td>135,000円</td><td>122,000円</td></tr>
-          <tr><td>1,000万円</td><td>178,000円</td><td>168,000円</td><td>159,000円</td><td>146,000円</td></tr>
-          <tr><td>1,200万円</td><td>237,000円</td><td>227,000円</td><td>217,000円</td><td>195,000円</td></tr>
-          <tr><td>1,500万円</td><td>370,000円</td><td>359,000円</td><td>347,000円</td><td>280,000円</td></tr>
+          <tr><td>300万円</td><td>28,000円</td><td>21,000円</td><td>13,000円</td><td>−</td></tr>
+          <tr><td>400万円</td><td>42,000円</td><td>34,000円</td><td>27,000円</td><td>16,000円</td></tr>
+          <tr><td>500万円</td><td>61,000円</td><td>50,000円</td><td>42,000円</td><td>31,000円</td></tr>
+          <tr><td>600万円</td><td>77,000円</td><td>69,000円</td><td>61,000円</td><td>47,000円</td></tr>
+          <tr><td>700万円</td><td>108,000円</td><td>86,000円</td><td>78,000円</td><td>67,000円</td></tr>
+          <tr><td>800万円</td><td>130,000円</td><td>121,000円</td><td>111,000円</td><td>86,000円</td></tr>
+          <tr><td>900万円</td><td>153,000円</td><td>143,000円</td><td>134,000円</td><td>121,000円</td></tr>
+          <tr><td>1,000万円</td><td>177,000円</td><td>168,000円</td><td>158,000円</td><td>146,000円</td></tr>
+          <tr><td>1,200万円</td><td>237,000円</td><td>227,000円</td><td>207,000円</td><td>194,000円</td></tr>
+          <tr><td>1,500万円</td><td>370,000円</td><td>358,000円</td><td>346,000円</td><td>280,000円</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="table-note">※社会保険料控除は年収の15%と仮定した概算です。住宅ローン控除・医療費控除・iDeCoの掛金控除などがある場合、実際の限度額はこれより低くなります。正確な金額は上のシミュレーターに詳細な条件を入力してご確認ください。</p>
+    <p class="table-note">※令和8年分（2026年）税制（基礎控除・給与所得控除の引き上げ改正）に基づく概算です。社会保険料控除は年収の15%と仮定しています。「−」は課税所得が小さく、自己負担2,000円で寄付できる枠がほぼない場合です。iDeCo・医療費控除・住宅ローン控除などがある場合は、上のシミュレーターの「詳細設定」で反映してご確認ください。</p>
   </div>
 
   <div class="explainer">
@@ -635,7 +750,11 @@
       <li style="margin-bottom:8px;"><a href="guide-kakuteishinkoku.html">ふるさと納税の確定申告のやり方・必要書類ガイド</a></li>
       <li style="margin-bottom:8px;"><a href="guide-schedule.html">ふるさと納税はいつまで？年内に済ませるべきこと</a></li>
       <li style="margin-bottom:8px;"><a href="guide-shokugyo.html">会社員・公務員・自営業者別 限度額の考え方の違い</a></li>
-      <li><a href="guide-chuui.html">ふるさと納税のデメリット・よくある失敗まとめ</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-chuui.html">ふるさと納税のデメリット・よくある失敗まとめ</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-loan.html">住宅ローン控除とふるさと納税は併用できる？限度額への影響</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-ideco.html">iDeCo・企業型DCとふるさと納税の併用と限度額の変化</a></li>
+      <li style="margin-bottom:8px;"><a href="guide-tenshoku.html">転職・退職・育休の年のふるさと納税はどうする？</a></li>
+      <li><a href="method.html">本シミュレーターの計算方法と前提（計算式の全公開）</a></li>
     </ul>
   </div>
 
@@ -664,7 +783,7 @@
 
     <details>
       <summary>住宅ローン控除やiDeCoを利用している場合、限度額は変わりますか？</summary>
-      <p>変わります。住宅ローン控除（住宅借入金等特別控除）やiDeCoの掛金控除、医療費控除、生命保険料控除などがあると課税所得や納税額が下がるため、ふるさと納税の限度額も本ツールの試算より少なくなる傾向があります。これらの控除を多く受けている方は、算出された金額より1〜2割程度低めに見積もっておくと安全です。</p>
+      <p>変わります。iDeCoの掛金控除や医療費控除などがあると課税所得が下がるため、限度額も少なくなります。本ツールの「詳細設定（任意）」にこれらの金額を入力すると、反映した試算ができます。なお住宅ローン控除は、ワンストップ特例を使う場合は限度額に影響せず、確定申告をする場合のみ影響することがあります。詳しくは<a href="guide-loan.html">住宅ローン控除との併用ガイド</a>・<a href="guide-ideco.html">iDeCoとの併用ガイド</a>をご覧ください。</p>
     </details>
 
     <details>
@@ -674,19 +793,20 @@
 
     <details>
       <summary>このシミュレーターの計算はいつの税制に基づいていますか？</summary>
-      <p>2026年（令和8年）分の給与所得控除・所得税率区分・住民税の計算方法に基づいて試算しています。税制は改正されることがあるため、実際に寄付する年の制度をあわせてご確認ください。</p>
+      <p>2026年（令和8年）分の税制に基づいて試算しています。2025〜2026年の税制改正で引き上げられた基礎控除（本則62万円+所得に応じた上乗せ特例）と給与所得控除（最低保障74万円）を反映済みです。住民税の基礎控除は43万円のまま据え置かれています。計算式の詳細は<a href="method.html">計算方法の解説ページ</a>で公開しています。</p>
     </details>
 
     <details>
       <summary>本サイトの試算結果は確実な金額ですか？</summary>
-      <p>いいえ、あくまで簡易的な目安です。社会保険料控除は年収の15%と仮定するなど一定の前提を置いており、住宅ローン控除・医療費控除・生命保険料控除などその他の控除は反映していません。正確な限度額は、寄付翌年にお住まいの市区町村へ確認するか、税理士にご相談ください。詳しくは<a href="disclaimer.html">免責事項</a>をご覧ください。</p>
+      <p>いいえ、あくまで簡易的な目安です。社会保険料控除は未入力の場合に年収の15%と仮定するなど、一定の前提を置いています（詳細設定で実額を反映できます）。正確な限度額は、寄付翌年にお住まいの市区町村へ確認するか、税理士にご相談ください。前提と計算式は<a href="method.html">計算方法の解説ページ</a>、注意事項は<a href="disclaimer.html">免責事項</a>をご覧ください。</p>
     </details>
   </div>
 
   <footer>
     <div class="footer-ad-note">※当サイトはアフィリエイト広告を利用しています。</div>
-    本シミュレーターの試算結果は目安であり、金額を保証するものではありません。2026年（令和8年）の税制に基づき試算しています。<br>
-    <a href="guide.html">関連記事</a> ・ <a href="about.html">このサイトについて</a> ・ <a href="privacy.html">プライバシーポリシー</a> ・ <a href="disclaimer.html">免責事項</a> ・ <a href="contact.html">お問い合わせ</a>
+    本シミュレーターの試算結果は目安であり、金額を保証するものではありません。2026年（令和8年）分の税制（基礎控除・給与所得控除の改正反映）に基づき試算しています。<br>
+    <a href="guide.html">関連記事</a> ・ <a href="method.html">計算方法</a> ・ <a href="about.html">このサイトについて</a> ・ <a href="privacy.html">プライバシーポリシー</a> ・ <a href="disclaimer.html">免責事項</a> ・ <a href="contact.html">お問い合わせ</a>
+    <div class="updated-date">最終更新日: 2026年7月8日</div>
   </footer>
 
 </div>
@@ -702,6 +822,7 @@
   let spouseVal = 'none';
   let hsCount = 0;
   let colCount = 0;
+  let houhouVal = 'onestop';
 
   // sync income input <-> range
   incomeInput.addEventListener('input', () => {
@@ -720,6 +841,16 @@
     });
   });
 
+  // 申告方法 segmented control
+  const houhouSeg = document.getElementById('houhouSeg');
+  houhouSeg.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      houhouSeg.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      houhouVal = btn.dataset.val;
+    });
+  });
+
   // steppers
   document.querySelectorAll('.stepper button').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -735,25 +866,48 @@
     });
   });
 
-  function givyoShotokuKoujo(income){
-    // income: yen
-    if(income <= 1625000) return Math.min(income, 550000);
-    if(income <= 1800000) return income*0.4 - 100000;
-    if(income <= 3600000) return income*0.3 + 80000;
-    if(income <= 6600000) return income*0.2 + 440000;
-    if(income <= 8500000) return income*0.1 + 1100000;
-    return 1950000;
+  // ===== 令和8年分（2026年）税制 =====
+  // 給与所得控除（最低保障74万円 = 本則69万円+特例5万円）
+  function kyuyoKoujo(income){
+    let k;
+    if(income <= 3600000) k = income*0.3 + 80000;
+    else if(income <= 6600000) k = income*0.2 + 440000;
+    else if(income <= 8500000) k = income*0.1 + 1100000;
+    else k = 1950000;
+    k = Math.max(k, 740000);
+    return Math.min(k, income);
   }
 
-  function shotokuZeiRitsu(kazeiShotoku){
-    if(kazeiShotoku <= 1950000) return 0.05;
-    if(kazeiShotoku <= 3300000) return 0.10;
-    if(kazeiShotoku <= 6950000) return 0.20;
-    if(kazeiShotoku <= 9000000) return 0.23;
-    if(kazeiShotoku <= 18000000) return 0.33;
-    if(kazeiShotoku <= 40000000) return 0.40;
-    return 0.45;
+  // 所得税の基礎控除（本則62万円+所得に応じた上乗せ特例）
+  function kisoShotokuzei(gokeiShotoku){
+    if(gokeiShotoku <= 1320000) return 1040000;
+    if(gokeiShotoku <= 3360000) return 920000;
+    if(gokeiShotoku <= 4890000) return 720000;
+    if(gokeiShotoku <= 6550000) return 670000;
+    if(gokeiShotoku <= 23500000) return 620000;
+    if(gokeiShotoku <= 24000000) return 480000;
+    if(gokeiShotoku <= 24500000) return 320000;
+    if(gokeiShotoku <= 25000000) return 160000;
+    return 0;
   }
+
+  // 所得税の速算表 [税率, 控除額]
+  function zeiritsuTable(k){
+    if(k <= 1950000) return [0.05, 0];
+    if(k <= 3300000) return [0.10, 97500];
+    if(k <= 6950000) return [0.20, 427500];
+    if(k <= 9000000) return [0.23, 636000];
+    if(k <= 18000000) return [0.33, 1536000];
+    if(k <= 40000000) return [0.40, 2796000];
+    return [0.45, 4796000];
+  }
+
+  function manYen(id){
+    const v = parseFloat(document.getElementById(id).value);
+    return (isFinite(v) && v > 0) ? v*10000 : 0;
+  }
+
+  let lastGendogaku = 0;
 
   function calculate(){
     const incomeMan = parseFloat(incomeInput.value) || 0;
@@ -764,48 +918,90 @@
       return;
     }
 
-    const shakaihoken = income * 0.15; // 社会保険料控除の仮定(年収の15%)
-    const givyoShotoku = income - givyoShotokuKoujo(income);
+    // 詳細設定
+    const shakaiJitsu = manYen('advShakai');
+    const shakaihoken = shakaiJitsu > 0 ? shakaiJitsu : income * 0.15;
+    const sonotaKoujo = manYen('advIdeco') + manYen('advIryohi') + manYen('advHoken');
+    const loanCredit = manYen('advLoan');
 
-    // 住民税ベースの所得控除
-    const kisoJumin = 430000;
-    const haigushaJumin = spouseVal === 'deduction' ? 330000 : 0;
-    const fuyoJumin = hsCount*330000 + colCount*450000;
-    const koujoGoukeiJumin = kisoJumin + shakaihoken + haigushaJumin + fuyoJumin;
-    const kazeiShotokuJumin = Math.max(0, givyoShotoku - koujoGoukeiJumin);
-    const juminzeiShotokuwari = kazeiShotokuJumin * 0.10;
+    const kyuyoShotoku = income - kyuyoKoujo(income);
 
-    // 所得税ベースの所得控除
-    const kisoShotoku = 480000;
-    const haigushaShotoku = spouseVal === 'deduction' ? 380000 : 0;
-    const fuyoShotoku = hsCount*380000 + colCount*630000;
-    const koujoGoukeiShotoku = kisoShotoku + shakaihoken + haigushaShotoku + fuyoShotoku;
-    const kazeiShotokuShotoku = Math.max(0, givyoShotoku - koujoGoukeiShotoku);
-    const zeiritsu = shotokuZeiRitsu(kazeiShotokuShotoku);
+    // 住民税ベース（基礎控除43万円）
+    const kojoJ = 430000 + shakaihoken + (spouseVal==='deduction'?330000:0) + hsCount*330000 + colCount*450000 + sonotaKoujo;
+    const kazeiJ = Math.max(0, kyuyoShotoku - kojoJ);
+    const juminwari = kazeiJ * 0.10;
 
-    // 限度額計算: 住民税所得割×20% = (限度額-2000)×(90%-所得税率×1.021)
-    const denom = 0.9 - zeiritsu*1.021;
-    let genndogaku = 2000;
-    if(denom > 0){
-      genndogaku = (juminzeiShotokuwari * 0.2) / denom + 2000;
+    // 所得税ベース
+    const kojoS = kisoShotokuzei(kyuyoShotoku) + shakaihoken + (spouseVal==='deduction'?380000:0) + hsCount*380000 + colCount*630000 + sonotaKoujo;
+    const kazeiS = Math.max(0, kyuyoShotoku - kojoS);
+    const zt = zeiritsuTable(kazeiS);
+    const t = zt[0];
+    const shotokuzeigaku = Math.max(0, kazeiS*t - zt[1]);
+
+    // 住宅ローン控除: 確定申告の場合のみ所得税の還付枠を圧迫（ワンストップは影響なし）
+    function gendo(houhou, loan){
+      const avail = (houhou === 'kakutei') ? Math.max(0, shotokuzeigaku - loan) : Infinity;
+      function selfBurden(X){
+        const kifu = Math.max(0, X - 2000);
+        const refund = Math.min(kifu * t * 1.021, avail);
+        const base = kifu * 0.10;
+        const tokurei = Math.min(kifu * (0.9 - t*1.021), juminwari * 0.2);
+        return X - (refund + base + tokurei);
+      }
+      let lo = 2000, hi = 20000000;
+      for(let i=0; i<60; i++){
+        const mid = (lo+hi)/2;
+        if(selfBurden(mid) <= 2000.5) lo = mid; else hi = mid;
+      }
+      let g = Math.floor(lo/1000)*1000;
+      if(g <= 2000) g = 0;
+      const kifu = Math.max(0, g - 2000);
+      return {
+        gen: g,
+        refund: Math.round(Math.min(kifu*t*1.021, avail)),
+        base: Math.round(kifu*0.10),
+        tokurei: Math.round(Math.min(kifu*(0.9 - t*1.021), juminwari*0.2))
+      };
     }
-    genndogaku = Math.max(2000, Math.round(genndogaku / 1000) * 1000);
 
-    const jichitaiKifu = genndogaku - 2000;
-    const juminBase = Math.round(jichitaiKifu * 0.10 / 1000) * 1000;
-    const juminSpecial = Math.max(0, genndogaku - 2000 - juminBase - Math.round(jichitaiKifu*zeiritsu*1.021));
-    const shotokuKanpu = genndogaku - 2000 - juminBase - juminSpecial;
+    const r = gendo(houhouVal, loanCredit);
+    lastGendogaku = r.gen;
 
-    document.getElementById('amountText').innerHTML = genndogaku.toLocaleString() + '<span>円</span>';
-    document.getElementById('incomeTaxRefund').textContent = Math.max(0,shotokuKanpu).toLocaleString() + '円';
-    document.getElementById('residentBase').textContent = juminBase.toLocaleString() + '円';
-    document.getElementById('residentSpecial').textContent = Math.max(0,juminSpecial).toLocaleString() + '円';
+    document.getElementById('amountText').innerHTML = r.gen.toLocaleString() + '<span>円</span>';
+    document.getElementById('incomeTaxRefund').textContent = (houhouVal==='onestop' ? '（住民税から一括控除）' : r.refund.toLocaleString() + '円');
+    document.getElementById('residentBase').textContent = r.base.toLocaleString() + '円';
+    document.getElementById('residentSpecial').textContent = r.tokurei.toLocaleString() + '円';
+
+    // 住宅ローン控除の影響アラート
+    const warn = document.getElementById('warnNote');
+    warn.classList.remove('show');
+    if(houhouVal === 'kakutei' && loanCredit > 0){
+      const rOS = gendo('onestop', 0);
+      if(r.gen < rOS.gen){
+        warn.innerHTML = '<strong>住宅ローン控除の影響で、確定申告の場合の上限が下がっています。</strong>寄付先が5自治体以内で、ほかに確定申告する理由がなければ「ワンストップ特例」を使うことでこの影響を避けられます（その場合の上限目安: ' + rOS.gen.toLocaleString() + '円）。詳しくは<a href="guide-loan.html" style="color:var(--shu);">住宅ローン控除との併用ガイド</a>をご覧ください。';
+        warn.classList.add('show');
+      }
+    }
+
+    updateRemain();
 
     result.classList.remove('show');
     void result.offsetWidth; // reflow to restart animation
     result.classList.add('show');
     result.scrollIntoView({behavior:'smooth', block:'center'});
   }
+
+  // 残り枠
+  function updateRemain(){
+    const donated = parseFloat(document.getElementById('donated').value) || 0;
+    const el = document.getElementById('remainText');
+    if(lastGendogaku <= 0 || donated <= 0){
+      el.textContent = donated > 0 && lastGendogaku <= 0 ? '−' : (lastGendogaku > 0 ? lastGendogaku.toLocaleString() + '円' : '−');
+      return;
+    }
+    el.textContent = Math.max(0, lastGendogaku - donated).toLocaleString() + '円';
+  }
+  document.getElementById('donated').addEventListener('input', updateRemain);
 
   calcBtn.addEventListener('click', calculate);
 })();
@@ -853,7 +1049,7 @@
       "name": "住宅ローン控除やiDeCoを利用している場合、限度額は変わりますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "変わります。住宅ローン控除やiDeCoの掛金控除、医療費控除、生命保険料控除などがあると課税所得が下がるため、限度額は本ツールの試算より少なくなる傾向があります。"
+        "text": "変わります。iDeCoや医療費控除などは本ツールの詳細設定に入力すると反映した試算ができます。住宅ローン控除はワンストップ特例を使う場合は限度額に影響せず、確定申告をする場合のみ影響することがあります。"
       }
     },
     {
@@ -869,7 +1065,7 @@
       "name": "このシミュレーターの計算はいつの税制に基づいていますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "2026年（令和8年）分の給与所得控除・所得税率区分・住民税の計算方法に基づいて試算しています。"
+        "text": "2026年（令和8年）分の税制に基づいて試算しています。2025〜2026年の税制改正で引き上げられた基礎控除と給与所得控除（最低保障74万円）を反映済みです。"
       }
     },
     {
