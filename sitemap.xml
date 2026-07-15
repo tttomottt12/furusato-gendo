@@ -85,6 +85,18 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://furusato-gendo.com/guide-kakunin.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://furusato-gendo.com/guide-tomobataraki.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://furusato-gendo.com/guide-wasureta.html</loc>
     <lastmod>2026-07-14</lastmod>
     <changefreq>yearly</changefreq>
