@@ -643,7 +643,7 @@
 
     <div class="breakdown">
       <div class="row"><span>実質負担額</span><strong>2,000円</strong></div>
-      <div class="row"><span>所得税からの還付（目安）</span><strong id="incomeTaxRefund">0円</strong></div>
+      <div class="row"><span id="refundLabel">所得税からの還付（目安）</span><strong id="incomeTaxRefund">0円</strong></div>
       <div class="row"><span>住民税からの控除・基本分</span><strong id="residentBase">0円</strong></div>
       <div class="row"><span>住民税からの控除・特例分</span><strong id="residentSpecial">0円</strong></div>
     </div>
@@ -969,7 +969,13 @@
     lastGendogaku = r.gen;
 
     document.getElementById('amountText').innerHTML = r.gen.toLocaleString() + '<span>円</span>';
-    document.getElementById('incomeTaxRefund').textContent = (houhouVal==='onestop' ? '（住民税から一括控除）' : r.refund.toLocaleString() + '円');
+    if(houhouVal==='onestop'){
+      document.getElementById('refundLabel').textContent = '住民税からの控除・申告特例分（目安）';
+      document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
+    }else{
+      document.getElementById('refundLabel').textContent = '所得税からの還付（目安）';
+      document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
+    }
     document.getElementById('residentBase').textContent = r.base.toLocaleString() + '円';
     document.getElementById('residentSpecial').textContent = r.tokurei.toLocaleString() + '円';
 
