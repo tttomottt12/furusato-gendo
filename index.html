@@ -505,6 +505,24 @@
   }
   .warn-note.show{display:block;}
 
+  /* 控除の流れ図 */
+  .flow{display:flex; gap:8px; margin-top:14px; text-align:left;}
+  .flow .step{
+    flex:1; background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    padding:10px 12px; position:relative; font-size:12px; line-height:1.6;
+  }
+  .flow .step .when{display:block; font-weight:700; color:var(--shu); font-size:11px; letter-spacing:0.05em;}
+  .flow .step .what{color:var(--ink);}
+  .flow .step:not(:last-child)::after{
+    content:"→"; position:absolute; right:-11px; top:50%; transform:translateY(-50%);
+    color:var(--gold); font-weight:700; z-index:1;
+  }
+  @media (max-width:480px){
+    .flow{flex-direction:column;}
+    .flow .step:not(:last-child)::after{content:"↓"; right:auto; left:50%; top:auto; bottom:-15px; transform:translateX(-50%);}
+    .flow .step{margin-bottom:8px;}
+  }
+
   /* 比較テーブル・サブボタン */
   .affiliate-btn.sub{
     background:#fff; color:var(--navy);
@@ -649,6 +667,7 @@
     </div>
 
     <div class="note" id="moneyNote" style="margin-top:16px;"></div>
+    <div class="flow" id="flowBox"></div>
 
     <div class="warn-note" id="warnNote"></div>
 
@@ -975,10 +994,18 @@
       document.getElementById('refundLabel').textContent = '住民税からの控除・申告特例分（目安）';
       document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
       document.getElementById('moneyNote').innerHTML = '<strong>お金はどうやって戻る？</strong> ワンストップ特例では現金の振込はありません。上記の控除合計分だけ、寄付した<strong>翌年の6月ごろから1年間の住民税が安くなる</strong>形で戻ります（給与天引きの方は毎月の天引き額が下がります）。';
+      document.getElementById('flowBox').innerHTML =
+        '<div class="step"><span class="when">① 今年（〜12月末）</span><span class="what">寄付する。支払いは全額いったん自己負担</span></div>'+
+        '<div class="step"><span class="when">② 翌年1月10日まで</span><span class="what">ワンストップ申請書を各自治体へ提出</span></div>'+
+        '<div class="step"><span class="when">③ 翌年6月〜翌々年5月</span><span class="what">毎月の住民税が安くなる形で戻ってくる</span></div>';
     }else{
       document.getElementById('refundLabel').textContent = '所得税からの還付（目安）';
       document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
       document.getElementById('moneyNote').innerHTML = '<strong>お金はどうやって戻る？</strong> 確定申告では2段階で戻ります。所得税分（' + r.refund.toLocaleString() + '円）は申告の約1〜2か月後に<strong>指定口座へ振込</strong>、住民税分は寄付した<strong>翌年の6月ごろから1年間の住民税が安くなる</strong>形で戻ります。';
+      document.getElementById('flowBox').innerHTML =
+        '<div class="step"><span class="when">① 今年（〜12月末）</span><span class="what">寄付する。支払いは全額いったん自己負担</span></div>'+
+        '<div class="step"><span class="when">② 翌年2月16日〜3月15日</span><span class="what">確定申告で寄附金控除を申請</span></div>'+
+        '<div class="step"><span class="when">③ 申告後〜翌々年5月</span><span class="what">所得税分は口座に振込、住民税分は翌年6月から毎月安くなる</span></div>';
     }
     document.getElementById('residentBase').textContent = r.base.toLocaleString() + '円';
     document.getElementById('residentSpecial').textContent = r.tokurei.toLocaleString() + '円';
