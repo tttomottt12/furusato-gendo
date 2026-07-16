@@ -648,6 +648,8 @@
       <div class="row"><span>住民税からの控除・特例分</span><strong id="residentSpecial">0円</strong></div>
     </div>
 
+    <div class="note" id="moneyNote" style="margin-top:16px;"></div>
+
     <div class="warn-note" id="warnNote"></div>
 
     <div class="note">
@@ -972,9 +974,11 @@
     if(houhouVal==='onestop'){
       document.getElementById('refundLabel').textContent = '住民税からの控除・申告特例分（目安）';
       document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
+      document.getElementById('moneyNote').innerHTML = '<strong>お金はどうやって戻る？</strong> ワンストップ特例では現金の振込はありません。上記の控除合計分だけ、寄付した<strong>翌年の6月ごろから1年間の住民税が安くなる</strong>形で戻ります（給与天引きの方は毎月の天引き額が下がります）。';
     }else{
       document.getElementById('refundLabel').textContent = '所得税からの還付（目安）';
       document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
+      document.getElementById('moneyNote').innerHTML = '<strong>お金はどうやって戻る？</strong> 確定申告では2段階で戻ります。所得税分（' + r.refund.toLocaleString() + '円）は申告の約1〜2か月後に<strong>指定口座へ振込</strong>、住民税分は寄付した<strong>翌年の6月ごろから1年間の住民税が安くなる</strong>形で戻ります。';
     }
     document.getElementById('residentBase').textContent = r.base.toLocaleString() + '円';
     document.getElementById('residentSpecial').textContent = r.tokurei.toLocaleString() + '円';
