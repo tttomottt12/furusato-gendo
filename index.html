@@ -533,6 +533,17 @@
   .affiliate-btn.sub:hover{border-color:var(--gold); transform:none; box-shadow:none;}
   .updated-date{font-size:11.5px; color:var(--ink-soft); margin-top:6px;}
 
+  .act-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+  .act-btn{flex:1 1 160px; padding:11px 10px; font-size:12.5px; font-weight:700; color:var(--navy); background:#fff; border:1.5px solid var(--line); border-radius:var(--radius); cursor:pointer; font-family:'Noto Sans JP',sans-serif;}
+  .act-btn:hover{border-color:var(--gold);}
+  .seg button.dis{opacity:.45; pointer-events:none;}
+  @media print{
+    body *{visibility:hidden;}
+    #result, #result *{visibility:visible;}
+    #result{position:absolute; left:0; top:0; width:100%; box-shadow:none;}
+    .affiliate-box, .act-row, .remain-box input, #coupleBox a, .hanko{display:none !important;}
+  }
+
   @media (max-width:480px){
     .card{padding:24px 18px;}
     .hanko{width:58px; height:58px; font-size:11px; top:16px; right:16px;}
@@ -562,16 +573,32 @@
   </div>
 
   <div class="card">
-    <h2><span class="num">1</span>あなた本人の年収を入力</h2>
+    <h2><span class="num">1</span>あなたの働き方と収入</h2>
     <div class="field">
-      <label for="income">あなた本人の給与収入（額面・年収）<span class="hint">source: 源泉徴収票の「支払金額」</span></label>
+      <label>働き方</label>
+      <div class="seg" id="modeSeg">
+        <button data-val="kyuyo" class="active">会社員・公務員<br><span style="font-weight:400;font-size:11px;">（給与のみ）</span></button>
+        <button data-val="fukugyo">給与+副業<br><span style="font-weight:400;font-size:11px;">（副業所得あり）</span></button>
+        <button data-val="jiei">自営業・フリーランス<br><span style="font-weight:400;font-size:11px;">（事業所得）</span></button>
+      </div>
+      <div class="field-note" id="modeNote" style="display:none;"></div>
+    </div>
+    <div class="field">
+      <label for="income" id="incomeLabel">あなた本人の給与収入（額面・年収）<span class="hint">出典: 源泉徴収票の「支払金額」</span></label>
       <div class="income-row">
         <input type="number" id="income" min="0" max="30000000" step="10" value="500">
         <span class="unit">万円</span>
       </div>
       <input type="range" id="incomeRange" min="100" max="2000" step="10" value="500">
       <div class="field-note">
-        <strong>ここに入れるのはあなた1人の年収です。</strong>配偶者の年収は含めません。共働きの場合、配偶者の分は合算せず、配偶者は配偶者自身でこのツールを使って別に計算してください。
+        <strong>ここに入れるのはあなた1人の年収です。</strong>配偶者の年収は含めません。共働きの場合、配偶者の分は合算せず、配偶者は配偶者自身でこのツールを使って別に計算してください（結果画面の「夫婦で計算」で世帯合計も出せます）。
+      </div>
+    </div>
+    <div class="field" id="fukugyoField" style="display:none;">
+      <label for="fukugyo">副業の所得（年間）<span class="hint">収入−経費。雑所得・事業所得など</span></label>
+      <div class="income-row">
+        <input type="number" id="fukugyo" min="0" step="1" placeholder="例: 30">
+        <span class="unit">万円</span>
       </div>
     </div>
   </div>
@@ -662,6 +689,7 @@
     <div class="hanko">目安<br>確定</div>
     <div class="label">あなた本人の控除上限額（目安）</div>
     <div class="amount" id="amountText">0<span>円</span></div>
+    <div id="accNote" style="font-size:11.5px;color:var(--ink-soft);margin-top:6px;"></div>
 
     <div class="breakdown">
       <div class="row"><span>実質負担額</span><strong>2,000円</strong></div>
@@ -676,7 +704,7 @@
     <div class="warn-note" id="warnNote"></div>
 
     <div class="note">
-      ※本ツールは給与所得者向けの簡易試算です。社会保険料は未入力の場合、年収の15%と仮定して概算します。iDeCo・医療費控除・住宅ローン控除などがある方は「詳細設定」で反映できます。正確な金額は寄付翌年に市区町村へご確認いただくか、税理士にご相談ください。計算式と前提は<a href="method.html" style="color:var(--shu);">計算方法の解説ページ</a>で公開しています。
+      ※本ツールは簡易試算です。社会保険料は未入力の場合、年収（自営業の方は所得）の15%と仮定して概算します。iDeCo・医療費控除・住宅ローン控除などがある方は「詳細設定」で反映できます。正確な金額は寄付翌年に市区町村へご確認いただくか、税理士にご相談ください。計算式と前提は<a href="method.html" style="color:var(--shu);">計算方法の解説ページ</a>で公開しています。
     </div>
 
     <div class="remain-box">
@@ -687,6 +715,25 @@
         <span style="font-size:13px;color:var(--ink-soft);">→ 残り枠</span>
         <span class="r-amount" id="remainText">−</span>
       </div>
+    </div>
+
+    <div class="remain-box">
+      <label for="planAmount">寄付予定額を入れると、実際の自己負担を試算できます（限度額超えチェック）</label>
+      <div class="r-row">
+        <input type="number" id="planAmount" min="0" step="1000" placeholder="例: 80000">
+        <span class="unit">円</span>
+      </div>
+      <div id="checkerOut" style="font-size:13.5px;margin-top:8px;"></div>
+    </div>
+
+    <div class="act-row">
+      <button class="act-btn" id="shareBtn">🔗 条件の共有リンクをコピー</button>
+      <button class="act-btn" id="printBtn">🖨 結果を印刷 / PDF保存</button>
+      <button class="act-btn" id="saveSpouseBtn">👥 夫婦で計算（1人目を保存）</button>
+    </div>
+    <div class="note" id="coupleBox" style="display:none;margin-top:14px;text-align:left;">
+      <div id="coupleText"></div>
+      <a href="#" id="coupleReset" style="color:var(--shu);font-size:12px;">リセット</a>
     </div>
 
     <div class="affiliate-box">
@@ -849,6 +896,9 @@
   let hsCount = 0;
   let colCount = 0;
   let houhouVal = 'onestop';
+  let modeVal = 'kyuyo';
+  let savedResult = null;
+  let lastCtx = null;
 
   // sync income input <-> range
   incomeInput.addEventListener('input', () => {
@@ -875,6 +925,37 @@
       btn.classList.add('active');
       houhouVal = btn.dataset.val;
     });
+  });
+
+  // 働き方 segmented control
+  const modeSeg = document.getElementById('modeSeg');
+  function setMode(m){
+    modeVal = m;
+    modeSeg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.val===m));
+    const lbl = document.getElementById('incomeLabel');
+    const modeNote = document.getElementById('modeNote');
+    const osBtn = houhouSeg.querySelector('button[data-val="onestop"]');
+    document.getElementById('fukugyoField').style.display = (m==='fukugyo') ? 'block' : 'none';
+    if(m==='jiei'){
+      lbl.innerHTML = 'あなた本人の事業所得（年間）<span class="hint">確定申告書の「所得金額」＝収入−経費−青色申告特別控除</span>';
+      modeNote.textContent = '自営業・フリーランスの方はワンストップ特例を利用できないため、確定申告での試算になります。社会保険料は国民健康保険+国民年金の実額を「詳細設定」に入力すると精度が大きく上がります。';
+      modeNote.style.display = 'block';
+      houhouVal = 'kakutei';
+      houhouSeg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.val==='kakutei'));
+      osBtn.classList.add('dis');
+    }else{
+      lbl.innerHTML = 'あなた本人の給与収入（額面・年収）<span class="hint">出典: 源泉徴収票の「支払金額」</span>';
+      if(m==='fukugyo'){
+        modeNote.textContent = '副業分を確定申告する場合、ワンストップ特例は利用できません（申告方法で「確定申告」を選んでください）。副業所得が20万円以下で確定申告をしない場合も、住民税の申告が必要になることがあります。';
+        modeNote.style.display = 'block';
+      }else{
+        modeNote.style.display = 'none';
+      }
+      osBtn.classList.remove('dis');
+    }
+  }
+  modeSeg.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => setMode(btn.dataset.val));
   });
 
   // steppers
@@ -944,22 +1025,35 @@
       return;
     }
 
+    // 働き方に応じた合計所得
+    let gokeiShotoku;
+    if(modeVal === 'jiei'){
+      gokeiShotoku = income; // 入力値=事業所得（収入−経費−青色申告特別控除後）
+    }else if(modeVal === 'fukugyo'){
+      gokeiShotoku = (income - kyuyoKoujo(income)) + manYen('fukugyo');
+    }else{
+      gokeiShotoku = income - kyuyoKoujo(income);
+    }
+
     // 詳細設定
     const shakaiJitsu = manYen('advShakai');
-    const shakaihoken = shakaiJitsu > 0 ? shakaiJitsu : income * 0.15;
-    const sonotaKoujo = manYen('advIdeco') + manYen('advIryohi') + manYen('advHoken');
+    const shakaihoken = shakaiJitsu > 0 ? shakaiJitsu : (modeVal==='jiei' ? gokeiShotoku : income) * 0.15;
+    // 生命保険料控除等: 所得税側は入力額（上限12万円）、住民税側は約7割（上限7万円）で簡易計算
+    const hokenIn = manYen('advHoken');
+    const hokenS = Math.min(hokenIn, 120000);
+    const hokenJ = Math.min(hokenIn * 0.7, 70000);
+    const sonotaS = manYen('advIdeco') + manYen('advIryohi') + hokenS;
+    const sonotaJ = manYen('advIdeco') + manYen('advIryohi') + hokenJ;
     const loanCredit = manYen('advLoan');
 
-    const kyuyoShotoku = income - kyuyoKoujo(income);
-
     // 住民税ベース（基礎控除43万円）
-    const kojoJ = 430000 + shakaihoken + (spouseVal==='deduction'?330000:0) + hsCount*330000 + colCount*450000 + sonotaKoujo;
-    const kazeiJ = Math.max(0, kyuyoShotoku - kojoJ);
+    const kojoJ = 430000 + shakaihoken + (spouseVal==='deduction'?330000:0) + hsCount*330000 + colCount*450000 + sonotaJ;
+    const kazeiJ = Math.max(0, gokeiShotoku - kojoJ);
     const juminwari = kazeiJ * 0.10;
 
     // 所得税ベース
-    const kojoS = kisoShotokuzei(kyuyoShotoku) + shakaihoken + (spouseVal==='deduction'?380000:0) + hsCount*380000 + colCount*630000 + sonotaKoujo;
-    const kazeiS = Math.max(0, kyuyoShotoku - kojoS);
+    const kojoS = kisoShotokuzei(gokeiShotoku) + shakaihoken + (spouseVal==='deduction'?380000:0) + hsCount*380000 + colCount*630000 + sonotaS;
+    const kazeiS = Math.max(0, gokeiShotoku - kojoS);
     const zt = zeiritsuTable(kazeiS);
     const t = zt[0];
     const shotokuzeigaku = Math.max(0, kazeiS*t - zt[1]);
@@ -992,8 +1086,11 @@
 
     const r = gendo(houhouVal, loanCredit);
     lastGendogaku = r.gen;
+    lastCtx = {t:t, juminwari:juminwari, avail:(houhouVal==='kakutei') ? Math.max(0, shotokuzeigaku - loanCredit) : Infinity};
 
     document.getElementById('amountText').innerHTML = r.gen.toLocaleString() + '<span>円</span>';
+    const acc = shakaiJitsu > 0 ? '±1%程度' : (modeVal==='jiei' ? '±5%程度（社会保険料を概算中。詳細設定に実額を入れると精度が上がります）' : '±3%程度（社会保険料を年収の15%で概算中）');
+    document.getElementById('accNote').innerHTML = '精度の目安: ' + acc + '｜<a href="method.html" style="color:var(--shu);">計算方法と前提</a>';
     if(houhouVal==='onestop'){
       document.getElementById('refundLabel').textContent = '住民税からの控除・申告特例分（目安）';
       document.getElementById('incomeTaxRefund').textContent = r.refund.toLocaleString() + '円';
@@ -1026,6 +1123,8 @@
     }
 
     updateRemain();
+    updateChecker();
+    updateCoupleBox();
 
     result.classList.remove('show');
     void result.offsetWidth; // reflow to restart animation
@@ -1044,6 +1143,94 @@
     el.textContent = Math.max(0, lastGendogaku - donated).toLocaleString() + '円';
   }
   document.getElementById('donated').addEventListener('input', updateRemain);
+
+  // ===== 超過チェッカー（寄付予定額→実際の自己負担） =====
+  function selfBurdenAt(X){
+    if(!lastCtx) return null;
+    const kifu = Math.max(0, X - 2000);
+    const refund = Math.min(kifu * lastCtx.t * 1.021, lastCtx.avail);
+    const base = kifu * 0.10;
+    const tokurei = Math.min(kifu * (0.9 - lastCtx.t*1.021), lastCtx.juminwari * 0.2);
+    return Math.max(0, Math.round(X - (refund + base + tokurei)));
+  }
+  function updateChecker(){
+    const el = document.getElementById('checkerOut');
+    const plan = parseFloat(document.getElementById('planAmount').value) || 0;
+    if(!lastCtx || plan <= 0){ el.textContent = ''; return; }
+    const burden = selfBurdenAt(plan);
+    if(plan <= lastGendogaku){
+      el.innerHTML = '✅ 限度額の範囲内です。自己負担は約 <strong>' + burden.toLocaleString() + '円</strong>で済みます。';
+    }else{
+      el.innerHTML = '⚠️ <strong style="color:var(--shu);">限度額を ' + (plan - lastGendogaku).toLocaleString() + '円 超えています。</strong>この金額を寄付した場合の自己負担は約 <strong>' + burden.toLocaleString() + '円</strong>になる見込みです。';
+    }
+  }
+  document.getElementById('planAmount').addEventListener('input', updateChecker);
+
+  // ===== 夫婦モード =====
+  function updateCoupleBox(){
+    const box = document.getElementById('coupleBox');
+    if(savedResult === null){ box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    document.getElementById('coupleText').innerHTML = '👥 <strong>世帯の合計目安</strong><br>1人目: ' + savedResult.toLocaleString() + '円 ＋ 今回の結果: ' + lastGendogaku.toLocaleString() + '円 ＝ <strong>' + (savedResult + lastGendogaku).toLocaleString() + '円</strong><br><span style="font-size:12px;">※寄付はそれぞれ本人名義・本人のアカウントで行ってください。合算して1人で寄付することはできません。</span>';
+  }
+  document.getElementById('saveSpouseBtn').addEventListener('click', function(){
+    if(lastGendogaku <= 0){ alert('先に1人目の限度額を計算してください'); return; }
+    savedResult = lastGendogaku;
+    alert('1人目の結果（' + savedResult.toLocaleString() + '円）を保存しました。\n配偶者の年収・条件に入力を変えて、もう一度「限度額を計算する」を押すと、世帯合計が表示されます。');
+  });
+  document.getElementById('coupleReset').addEventListener('click', function(e){
+    e.preventDefault();
+    savedResult = null;
+    updateCoupleBox();
+  });
+
+  // ===== 共有リンク・印刷 =====
+  function buildShareURL(){
+    const p = new URLSearchParams();
+    p.set('m', modeVal);
+    p.set('i', incomeInput.value);
+    if(modeVal === 'fukugyo' && document.getElementById('fukugyo').value) p.set('f', document.getElementById('fukugyo').value);
+    p.set('sp', spouseVal); p.set('hs', hsCount); p.set('col', colCount); p.set('hh', houhouVal);
+    ['advShakai','advIdeco','advIryohi','advHoken','advLoan'].forEach(function(id){
+      const v = document.getElementById(id).value;
+      if(v) p.set(id, v);
+    });
+    return location.origin + location.pathname + '?' + p.toString();
+  }
+  document.getElementById('shareBtn').addEventListener('click', function(){
+    const url = buildShareURL();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){
+        alert('この条件を再現できるリンクをコピーしました。\nLINEやメールで共有すると、同じ条件・結果がそのまま開けます。');
+      }, function(){ prompt('このURLをコピーしてください', url); });
+    }else{
+      prompt('このURLをコピーしてください', url);
+    }
+  });
+  document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+
+  // URLパラメータからの条件復元（共有リンクで開いた場合）
+  (function(){
+    const p = new URLSearchParams(location.search);
+    if(!p.get('i')) return;
+    if(p.get('m')) setMode(p.get('m'));
+    incomeInput.value = p.get('i');
+    if(p.get('f')) document.getElementById('fukugyo').value = p.get('f');
+    if(p.get('sp')){
+      spouseVal = p.get('sp');
+      spouseSeg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.val === spouseVal));
+    }
+    hsCount = parseInt(p.get('hs')||'0',10) || 0; document.getElementById('hsCount').textContent = hsCount;
+    colCount = parseInt(p.get('col')||'0',10) || 0; document.getElementById('colCount').textContent = colCount;
+    if(p.get('hh') && modeVal !== 'jiei'){
+      houhouVal = p.get('hh');
+      houhouSeg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.val === houhouVal));
+    }
+    ['advShakai','advIdeco','advIryohi','advHoken','advLoan'].forEach(function(id){
+      if(p.get(id)) document.getElementById(id).value = p.get(id);
+    });
+    calculate();
+  })();
 
   calcBtn.addEventListener('click', calculate);
 })();
